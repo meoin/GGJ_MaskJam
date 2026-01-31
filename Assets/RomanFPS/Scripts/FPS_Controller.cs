@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class FPS_Controller : MonoBehaviour
@@ -48,7 +50,11 @@ public class FPS_Controller : MonoBehaviour
     [SerializeField] private CharacterController controller;
 
     public float playerReach = 3f;
-    Interactable currentNPC;
+    Interactable currentInteractableNPC;
+
+    Collidable currentCollidableNPC;
+
+    [SerializeField] float speedRotation = 500f;
 
     [Header("Checkers")]
     private bool crouching = false;
@@ -78,7 +84,7 @@ public class FPS_Controller : MonoBehaviour
         if (controller != null)
         {
             controller.height = normalHeight;
-            controller.center = new Vector3(0, controller.height / 2f, 0);
+            //controller.center = new Vector3(0, controller.height / 2f, 0);
 
             // slope limit increase
             controller.slopeLimit = 50f;
@@ -112,13 +118,13 @@ public class FPS_Controller : MonoBehaviour
         }
 
         CheckInteraction();
-        if (Input.GetKeyDown(KeyCode.E) && currentNPC != null)
+        if (Input.GetKeyDown(KeyCode.E) && currentInteractableNPC != null)
         {
-            currentNPC.Interact();
+            currentInteractableNPC.Interact();
         }
 
-        Crouch();
-        Jump();
+        //Crouch();
+        //Jump();
 
         // --- speed management ---
         // states: walking, sprinting, crouching
@@ -222,6 +228,8 @@ public class FPS_Controller : MonoBehaviour
         }
     }
 
+    #region Disabled
+
     private void Crouch()
     {
         if (Input.GetKeyDown(crouchKey))
@@ -321,6 +329,8 @@ public class FPS_Controller : MonoBehaviour
         }
     }
 
+    #endregion
+
     void CheckInteraction()
     {
         RaycastHit hit;
@@ -331,9 +341,9 @@ public class FPS_Controller : MonoBehaviour
             {
                 Interactable newInteractable = hit.collider.GetComponent<Interactable>();
 
-                if (currentNPC && newInteractable != currentNPC)
+                if (currentInteractableNPC && newInteractable != currentInteractableNPC)
                 {
-                    currentNPC.DisableOutline();
+                    currentInteractableNPC.DisableOutline();
                 }
                 if (newInteractable.enabled)
                 {
@@ -357,18 +367,42 @@ public class FPS_Controller : MonoBehaviour
 
     void SetNewCurrentInteractable(Interactable newInteractable)
     {
-        currentNPC = newInteractable;
-        currentNPC.EnableOutline();
-        HUDController.instance.EnableInteractionText(currentNPC.message);
+        currentInteractableNPC = newInteractable;
+        currentInteractableNPC.EnableOutline();
+        HUDController.instance.EnableInteractionText(currentInteractableNPC.message);
     }
 
     void DisableCurrentInteractable()
     {
         HUDController.instance.DisableInteractionText();
-        if (currentNPC)
+        if (currentInteractableNPC)
         {
-            currentNPC.DisableOutline();
-            currentNPC = null;
+            currentInteractableNPC.DisableOutline();
+            currentInteractableNPC = null;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Collidable"))
+        {
+            currentCollidableNPC = other.GetComponent<Collidable>();
+            
+            currentCollidableNPC.Interact();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Collidable"))
+        {
+            Vector3 targetDirPlayer = other.transform.position - controller.transform.position;
+            Quaternion targetRotPlayer = Quaternion.LookRotation(targetDirPlayer, Vector3.up);
+            controller.transform.rotation = Quaternion.RotateTowards(controller.transform.rotation, targetRotPlayer, speedRotation * Time.deltaTime);
+            var e = controller.transform.eulerAngles;
+            controller.transform.rotation = Quaternion.Euler(0, e.y, 0);
+
+
         }
     }
 }
