@@ -13,7 +13,7 @@ public class Dialogue : MonoBehaviour
     [SerializeField] private float WaitTimeForResponse;
 
     private Story _currentStory;
-    private bool _dialogueIsPlaying;
+    public bool DialogueIsPlaying;
 
     private string _textToDisplay;
     private string _fullText;
@@ -38,7 +38,7 @@ public class Dialogue : MonoBehaviour
 
     void Start()
     {
-        _dialogueIsPlaying = false;
+        DialogueIsPlaying = false;
         TextUI.gameObject.SetActive(false);
         ResponseTimerBar.SetActive(false);
     }
@@ -47,7 +47,7 @@ public class Dialogue : MonoBehaviour
     void Update()
     {
         // Don't do anything if dialogue isn't playing
-        if (!_dialogueIsPlaying) return;
+        if (!DialogueIsPlaying) return;
 
         if (_fullText != "" && _fullText != _textToDisplay)
         {
@@ -146,11 +146,15 @@ public class Dialogue : MonoBehaviour
         _audioSource.clip = audio;
     }
 
-    public void EnterDialogue(TextAsset inkJSON) 
+    public void EnterDialogue(TextAsset inkJSON, string node) 
     {
         _currentStory = new Story(inkJSON.text);
-        _dialogueIsPlaying = true;
+        DialogueIsPlaying = true;
         TextUI.gameObject.SetActive(true);
+
+        if (node == "") node = "Start";
+
+        _currentStory.ChoosePathString(node);
 
         ContinueStory();
     }
@@ -160,7 +164,7 @@ public class Dialogue : MonoBehaviour
         Debug.Log("Exited dialogue");
 
         SetText("");
-        _dialogueIsPlaying = false;
+        DialogueIsPlaying = false;
         TextUI.gameObject.SetActive(false);
     }
 

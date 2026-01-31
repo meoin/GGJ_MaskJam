@@ -4,10 +4,15 @@ using UnityEngine.Events;
 public class Collidable : MonoBehaviour
 {
     [SerializeField] UnityEvent onInteraction;
+    public bool CanInteract = true;
 
     public void Interact()
     {
-        onInteraction.Invoke();
+        if (CanInteract)
+        {
+            onInteraction.Invoke();
+            CanInteract = false;
+        }
     }
 
     public void CubedSphere()
