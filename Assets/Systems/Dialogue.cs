@@ -1,7 +1,8 @@
-using TMPro;
-using System;
-using UnityEngine;
 using Ink.Runtime;
+using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public class Dialogue : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Dialogue : MonoBehaviour
 
     private Story _currentStory;
     public bool DialogueIsPlaying;
+    private NPC _currentNPC;
 
     private string _textToDisplay;
     private string _fullText;
@@ -75,7 +77,7 @@ public class Dialogue : MonoBehaviour
             if (_responding)
             {
                 float timeLeftPercentage = (WaitTimeForResponse - _timeWaited) / WaitTimeForResponse;
-                Debug.Log($"Percentage: {timeLeftPercentage}");
+                //Debug.Log($"Percentage: {timeLeftPercentage}");
                 ResponseTimerBar.transform.localScale = new Vector3(timeLeftPercentage, 1, 1);
             }
 
@@ -146,8 +148,9 @@ public class Dialogue : MonoBehaviour
         _audioSource.clip = audio;
     }
 
-    public void EnterDialogue(TextAsset inkJSON, string node) 
+    public void EnterDialogue(TextAsset inkJSON, string node, NPC currentNPC) 
     {
+        _currentNPC = currentNPC;
         _currentStory = new Story(inkJSON.text);
         DialogueIsPlaying = true;
         TextUI.gameObject.SetActive(true);
@@ -159,22 +162,26 @@ public class Dialogue : MonoBehaviour
         ContinueStory();
     }
 
-    private void ExitDialogueMode()
+    public void ExitDialogueMode()
     {
         Debug.Log("Exited dialogue");
-
+        SaveNode();
         SetText("");
         DialogueIsPlaying = false;
         TextUI.gameObject.SetActive(false);
+        ResponseTimerBar.SetActive(false);
+        _currentNPC = null;
     }
 
     private void ContinueStory() 
     {
-        Debug.Log("Can continue? " +  _currentStory.canContinue);
+        
+        //Debug.Log("Can continue? " +  _currentStory.canContinue);
 
         if (_currentStory.canContinue)
         {
             SetText(_currentStory.Continue());
+            SaveNode();
         }
         else if (_currentStory.currentChoices.Count > 0) 
         {
@@ -183,6 +190,17 @@ public class Dialogue : MonoBehaviour
         else
         {
             ExitDialogueMode();
+            SaveNode();
+        }
+    }
+
+    private void SaveNode() 
+    {
+        string node = GetCurrentNode();
+        if (node != null)
+        {
+            Debug.Log(node);
+            _currentNPC.Node = node;
         }
     }
 
@@ -200,5 +218,22 @@ public class Dialogue : MonoBehaviour
 
         _currentStory.ChooseChoiceIndex((int)GameManager.Instance.Player.CurrentMask);
         SetText(_currentStory.Continue());
+        SaveNode();
+    }
+
+    public string GetCurrentNode()
+    {
+        string currentPath = _currentStory.state.currentPathString;
+
+        if (!string.IsNullOrEmpty(currentPath))
+        {
+            string[] pathComponents = currentPath.Split('.');
+            if (pathComponents.Length > 0)
+            {
+                return pathComponents[0];
+            }
+        }
+
+        return null;
     }
 }

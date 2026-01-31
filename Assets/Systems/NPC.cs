@@ -9,7 +9,7 @@ public class NPC : MonoBehaviour
     {
         if (!GameManager.Instance.Dialogue.DialogueIsPlaying) 
         {
-            GameManager.Instance.Dialogue.EnterDialogue(InkJSON, Node);
+            GameManager.Instance.Dialogue.EnterDialogue(InkJSON, Node, this);
         }
     }
 }
