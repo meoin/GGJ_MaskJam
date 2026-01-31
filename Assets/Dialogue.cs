@@ -11,6 +11,9 @@ public class Dialogue : MonoBehaviour
     private float _textTimeline;
     private int _charactersToType;
     private bool _typing;
+    private bool _waiting;
+    public float WaitTimeAfterDialogue;
+    private float _timeWaited;
     private float _defaultTypingSpeed;
     public float CharactersPerSecond;
 
@@ -31,9 +34,26 @@ public class Dialogue : MonoBehaviour
             SetText("This is a test string to see if the dialogue works");
         }
 
-        if (_fullText != "" && _fullText != _textToDisplay) 
+        if (_fullText != "" && _fullText != _textToDisplay)
         {
             TypeText();
+        }
+        else if (_fullText == _textToDisplay && _typing) 
+        {
+            _typing = false;
+            _waiting = true;
+            _timeWaited = 0;
+        }
+        
+        if (_waiting) 
+        {
+            _timeWaited += Time.deltaTime;
+
+            if (_timeWaited >= WaitTimeAfterDialogue) 
+            {
+                _waiting = false;
+                SetText("");
+            }
         }
     }
 
@@ -55,6 +75,7 @@ public class Dialogue : MonoBehaviour
 
     public void SetText(string text) 
     {
+        _typing = true;
         _textToDisplay = "";
         _fullText = text;
         _textTimeline = 0;
@@ -65,51 +86,26 @@ public class Dialogue : MonoBehaviour
         if (text == "")
         {
             UIText.text = "";
+            _typing = false;
         }
     }
 
     public void SetText(string text, float speed)
     {
-        _textToDisplay = "";
-        _fullText = text;
-        _textTimeline = 0;
-        _charactersToType = 0;
+        SetText(text);
         CharactersPerSecond = speed;
-        _audioSource.clip = DefaultAudio;
-
-        if (text == "")
-        {
-            UIText.text = "";
-        }
     }
 
     public void SetText(string text, AudioClip audio)
     {
-        _textToDisplay = "";
-        _fullText = text;
-        _textTimeline = 0;
-        _charactersToType = 0;
-        CharactersPerSecond = _defaultTypingSpeed;
+        SetText(text);
         _audioSource.clip = audio;
-
-        if (text == "")
-        {
-            UIText.text = "";
-        }
     }
 
     public void SetText(string text, float speed, AudioClip audio)
     {
-        _textToDisplay = "";
-        _fullText = text;
-        _textTimeline = 0;
-        _charactersToType = 0;
+        SetText(text);
         CharactersPerSecond = speed;
         _audioSource.clip = audio;
-
-        if (text == "")
-        {
-            UIText.text = "";
-        }
     }
 }
