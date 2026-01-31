@@ -6,8 +6,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
 
-    //[Header("System References")]
-
+    [Header("System References")]
+    public Dialogue Dialogue;
+    public Player Player;
 
 
 
