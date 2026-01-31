@@ -7,8 +7,10 @@ public class Dialogue : MonoBehaviour
 {
     
     [SerializeField] private TextMeshProUGUI TextUI;
+    [SerializeField] private GameObject ResponseTimerBar;
     [SerializeField] private float WaitTimeAfterDialogue;
     [SerializeField] private float CharactersPerSecond;
+    [SerializeField] private float WaitTimeForResponse;
 
     private Story _currentStory;
     private bool _dialogueIsPlaying;
@@ -19,6 +21,7 @@ public class Dialogue : MonoBehaviour
     private int _charactersToType;
     private bool _typing;
     private bool _waiting;
+    private bool _responding;
     
     private float _timeWaited;
     private float _defaultTypingSpeed;
@@ -37,6 +40,7 @@ public class Dialogue : MonoBehaviour
     {
         _dialogueIsPlaying = false;
         TextUI.gameObject.SetActive(false);
+        ResponseTimerBar.SetActive(false);
     }
 
     // Update is called once per frame
@@ -51,18 +55,40 @@ public class Dialogue : MonoBehaviour
         }
         else if (_fullText == _textToDisplay && _typing) 
         {
-            _typing = false;
-            _waiting = true;
-            _timeWaited = 0;
+            if (_currentStory.currentChoices.Count > 0)
+            {
+                _typing = false;
+                ContinueStory();
+            }
+            else 
+            {
+                _typing = false;
+                _waiting = true;
+                _timeWaited = 0;
+            }
         }
         
-        if (_waiting) 
+        if (_waiting || _responding) 
         {
             _timeWaited += Time.deltaTime;
 
-            if (_timeWaited >= WaitTimeAfterDialogue) 
+            if (_responding)
             {
+                float timeLeftPercentage = (WaitTimeForResponse - _timeWaited) / WaitTimeForResponse;
+                Debug.Log($"Percentage: {timeLeftPercentage}");
+                ResponseTimerBar.transform.localScale = new Vector3(timeLeftPercentage, 1, 1);
+            }
+
+            if (_waiting && _timeWaited >= WaitTimeAfterDialogue)
+            {
+                _waiting = false;
                 ContinueStory();
+            }
+            else if (_responding && _timeWaited >= WaitTimeForResponse) 
+            {
+                _responding = false;
+                ResponseTimerBar.SetActive(false);
+                ReadResponse();
             }
         }
     }
@@ -145,8 +171,10 @@ public class Dialogue : MonoBehaviour
         if (_currentStory.canContinue)
         {
             SetText(_currentStory.Continue());
-
-            if (_currentStory.currentChoices.Count > 0) PromptResponse();
+        }
+        else if (_currentStory.currentChoices.Count > 0) 
+        {
+            PromptResponse();
         }
         else
         {
@@ -156,13 +184,17 @@ public class Dialogue : MonoBehaviour
 
     private void PromptResponse() 
     {
+        ResponseTimerBar.SetActive(true);
+        ResponseTimerBar.transform.localScale = new Vector3(1, 1, 1);
+        _responding = true;
+        _timeWaited = 0;
+    }
+
+    private void ReadResponse() 
+    {
         Debug.Log(GameManager.Instance.Player.CurrentMask);
-        Debug.Log((int)GameManager.Instance.Player.CurrentMask);
-        //foreach (Choice choice in _currentStory.currentChoices)
-        //{
-        //    Debug.Log(choice.text);
-        //}
 
         _currentStory.ChooseChoiceIndex((int)GameManager.Instance.Player.CurrentMask);
+        SetText(_currentStory.Continue());
     }
 }
