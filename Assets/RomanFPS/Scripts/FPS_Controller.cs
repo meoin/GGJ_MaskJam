@@ -117,7 +117,11 @@ public class FPS_Controller : MonoBehaviour
             velocityPhysics.y = 0;
         }
 
-        CheckInteraction();
+        if (PlayScript.instance == null || !PlayScript.instance.isPlaying)
+        {
+            CheckInteraction();
+        }
+
         if (Input.GetKeyDown(KeyCode.E) && currentInteractableNPC != null)
         {
             currentInteractableNPC.Interact();
@@ -134,9 +138,12 @@ public class FPS_Controller : MonoBehaviour
         // smoothly change speed towards target
         SmoothSpeed();
 
-        ApplyGravity();
-        ApplyMovement();
-        CameraMovement();
+        if (!PlayScript.instance.isPlaying)
+        {
+            ApplyGravity();
+            ApplyMovement();
+            CameraMovement();
+        }
 
         // --- calculating velocity using position change for debug (m/s) ---
         if (Time.deltaTime > 0f)

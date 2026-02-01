@@ -6,6 +6,7 @@ public class Interactable : MonoBehaviour
     Outline outline;
     public string message;
 
+
     public UnityEvent onInteraction;
 
     void Start()
@@ -16,7 +17,7 @@ public class Interactable : MonoBehaviour
 
     public void Interact()
     {
-        onInteraction.Invoke();
+        onInteraction?.Invoke();
     }
 
     public void DisableOutline()
@@ -36,6 +37,21 @@ public class Interactable : MonoBehaviour
 
     public void PlayMinigame()
     {
+        if (PlayScript.instance == null)
+        {
+            PlayScript found = FindFirstObjectByType<PlayScript>();
+            if (found != null)
+            {
+                PlayScript.instance = found;
+            }
+        }
+
+        if (PlayScript.instance == null)
+        {
+            Debug.LogError("PlayScript.instance == null.");
+            return;
+        }
+
         PlayScript.instance.ActivateGame();
     }
 }
