@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FPS_Controller : MonoBehaviour
 {
+    public static FPS_Controller instance;
+
     [Header("Movement")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float sprintSpeed;
@@ -45,7 +47,7 @@ public class FPS_Controller : MonoBehaviour
     [SerializeField] private float standCheckPadding = 0.02f; // small padding to avoid ground collision
 
     [Header("References")]
-    [SerializeField] private Transform player;
+    [SerializeField] public Transform player;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private CharacterController controller;
 
@@ -75,6 +77,10 @@ public class FPS_Controller : MonoBehaviour
     // previous position for velocity calculation
     private Vector3 previousPosition;
 
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -118,7 +124,11 @@ public class FPS_Controller : MonoBehaviour
             velocityPhysics.y = 0;
         }
 
-        CheckInteraction();
+        if (PlayScript.instance == null || !PlayScript.instance.isPlaying)
+        {
+            CheckInteraction();
+        }
+
         if (Input.GetKeyDown(KeyCode.E) && currentInteractableNPC != null)
         {
             currentInteractableNPC.Interact();
@@ -135,8 +145,13 @@ public class FPS_Controller : MonoBehaviour
         // smoothly change speed towards target
         SmoothSpeed();
 
-        ApplyGravity();
-        ApplyMovement();
+        if (!PlayScript.instance.isPlaying)
+        {
+            ApplyGravity();
+            ApplyMovement();
+        }
+        
+
         CameraMovement();
 
         // --- calculating velocity using position change for debug (m/s) ---

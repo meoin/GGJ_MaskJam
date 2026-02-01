@@ -7,11 +7,12 @@ public class PipeSpawner : MonoBehaviour
     [SerializeField] private GameObject _pipe;
 
     private float timer;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool hasSpawnedInitialPipe;
+
+    private void OnEnable()
     {
-        PipeSpawn();
+        timer = 0f;
+        hasSpawnedInitialPipe = false;
     }
 
     private void PipeSpawn()
@@ -19,11 +20,18 @@ public class PipeSpawner : MonoBehaviour
         Vector3 pipePos = transform.position + new Vector3(0, Random.Range(-yPosRange, yPosRange));
         GameObject pipe = Instantiate(_pipe, pipePos, Quaternion.identity);
         Destroy(pipe, 10);
+        Debug.Log("Spawned pipe at " + pipePos);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (!hasSpawnedInitialPipe)
+        {
+            PipeSpawn();
+            hasSpawnedInitialPipe = true;
+            return;
+        }
+
         if (timer > maxTime)
         {
             PipeSpawn();
