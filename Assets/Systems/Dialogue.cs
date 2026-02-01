@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
 {
     
     [SerializeField] private TextMeshProUGUI TextUI;
+    [SerializeField] private TextMeshProUGUI MicrotextUI;
     [SerializeField] private GameObject ResponseTimerBar;
     [SerializeField] private float WaitTimeAfterDialogue;
     [SerializeField] private float CharactersPerSecond;
@@ -24,16 +26,28 @@ public class Dialogue : MonoBehaviour
     private bool _typing;
     private bool _waiting;
     private bool _responding;
+
+    public float MicrotextTime;
+    public float MicrotextSpeed;
+    private float _microtextTimer;
+    private bool _microtextShowing;
+    private Vector3 _microtextStart;
     
     private float _timeWaited;
     private float _defaultTypingSpeed;
 
     private AudioSource _audioSource;
     public AudioClip DefaultAudio;
+    private AudioClip _npcAudio;
+
+    private GetAnimaticImage _animatics;
+    public Image AnimaticBackground;
+    public Image AnimaticImage;
 
     void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        _animatics = GetComponent<GetAnimaticImage>();
         _defaultTypingSpeed = CharactersPerSecond;
         _audioSource.clip = DefaultAudio;
     }
@@ -43,6 +57,7 @@ public class Dialogue : MonoBehaviour
         DialogueIsPlaying = false;
         TextUI.gameObject.SetActive(false);
         ResponseTimerBar.SetActive(false);
+        _microtextStart = MicrotextUI.transform.position;
     }
 
     // Update is called once per frame
@@ -50,6 +65,24 @@ public class Dialogue : MonoBehaviour
     {
         // Don't do anything if dialogue isn't playing
         if (!DialogueIsPlaying) return;
+
+        if (_microtextShowing) 
+        {
+            _microtextTimer += Time.deltaTime;
+
+            Color textColor = MicrotextUI.color;
+            textColor.a = Mathf.Min(_microtextTimer, 1);
+            MicrotextUI.color = textColor;
+
+            MicrotextUI.transform.position = new Vector3(_microtextStart.x, _microtextStart.y + _microtextTimer * MicrotextSpeed, _microtextStart.z);
+
+            if (_microtextTimer >= MicrotextTime) 
+            {
+                MicrotextUI.text = "";
+                _microtextShowing = false;
+                ContinueStory();
+            }
+        }
 
         if (_fullText != "" && _fullText != _textToDisplay)
         {
@@ -93,6 +126,17 @@ public class Dialogue : MonoBehaviour
                 ReadResponse();
             }
         }
+    }
+
+    private void SetMicrotext(string text) 
+    {
+        MicrotextUI.text = text;
+        Color textColor = MicrotextUI.color;
+        textColor.a = 0;
+        MicrotextUI.color = textColor;
+        _microtextTimer = 0;
+        _microtextShowing = true;
+        MicrotextUI.transform.position = _microtextStart;
     }
 
     private void TypeText() 
@@ -168,6 +212,13 @@ public class Dialogue : MonoBehaviour
         ContinueStory();
     }
 
+    public void EnterDialogue(TextAsset inkJSON, string node, NPC currentNPC, AudioClip talkSound)
+    {
+        _npcAudio = talkSound;
+
+        EnterDialogue(inkJSON, node, currentNPC);
+    }
+
     public void ExitDialogueMode()
     {
         if (GameManager.Instance.Player.MasksOut)
@@ -182,6 +233,7 @@ public class Dialogue : MonoBehaviour
         TextUI.gameObject.SetActive(false);
         ResponseTimerBar.SetActive(false);
         _currentNPC = null;
+        _npcAudio = null;
     }
 
     private void ContinueStory() 
@@ -191,7 +243,33 @@ public class Dialogue : MonoBehaviour
 
         if (_currentStory.canContinue)
         {
-            SetText(_currentStory.Continue());
+            string text = _currentStory.Continue();
+            if (_currentStory.currentTags.Contains("mt"))
+            {
+                SetText("");
+                SetMicrotext(text);
+            }
+            else if (_currentStory.currentTags.Contains("narration"))
+            {
+                SetText(text, DefaultAudio);
+            }
+            else if (_currentStory.currentTags.Contains("animatic")) 
+            {
+                Sprite sprite = _animatics.GetImage(text);
+                AnimaticBackground.gameObject.SetActive(true);
+                AnimaticImage.sprite = sprite;
+                ContinueStory();
+            }
+            else
+            {
+                if (_npcAudio != null)
+                {
+                    SetText(text, _npcAudio);
+                }
+                else SetText(text);
+
+            }
+                
             SaveNode();
         }
         else if (_currentStory.currentChoices.Count > 0) 
