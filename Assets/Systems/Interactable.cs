@@ -33,4 +33,9 @@ public class Interactable : MonoBehaviour
     {
         Debug.Log("Interacted with Cube");
     }
+
+    public void PlayMinigame()
+    {
+        PlayScript.instance.ActivateGame();
+    }
 }
