@@ -53,6 +53,7 @@ public class FPS_Controller : MonoBehaviour
     Interactable currentInteractableNPC;
 
     Collidable currentCollidableNPC;
+    bool _lookTowardsNPC;
 
     [SerializeField] float speedRotation = 500f;
 
@@ -387,6 +388,7 @@ public class FPS_Controller : MonoBehaviour
     {
         if (other.CompareTag("Collidable"))
         {
+            _lookTowardsNPC = true;
             currentCollidableNPC = other.GetComponent<Collidable>();
             
             currentCollidableNPC.Interact();
@@ -397,13 +399,17 @@ public class FPS_Controller : MonoBehaviour
     {
         if (other.CompareTag("Collidable"))
         {
+            if (!_lookTowardsNPC) return;
+
             Vector3 targetDirPlayer = other.transform.position - controller.transform.position;
             Quaternion targetRotPlayer = Quaternion.LookRotation(targetDirPlayer, Vector3.up);
             controller.transform.rotation = Quaternion.RotateTowards(controller.transform.rotation, targetRotPlayer, speedRotation * Time.deltaTime);
             var e = controller.transform.eulerAngles;
             controller.transform.rotation = Quaternion.Euler(0, e.y, 0);
 
+            float distanceLooking = Mathf.Abs(Mathf.Abs(controller.transform.rotation.y) - Mathf.Abs(targetRotPlayer.y));
 
+            if (distanceLooking < 0.02f) _lookTowardsNPC = false;
         }
     }
 }
