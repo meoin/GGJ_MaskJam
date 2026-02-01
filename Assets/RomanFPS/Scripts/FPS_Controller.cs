@@ -121,6 +121,7 @@ public class FPS_Controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && currentInteractableNPC != null)
         {
             currentInteractableNPC.Interact();
+            DisableCurrentInteractable();
         }
 
         //Crouch();
@@ -345,7 +346,7 @@ public class FPS_Controller : MonoBehaviour
                 {
                     currentInteractableNPC.DisableOutline();
                 }
-                if (newInteractable.enabled)
+                if (newInteractable.enabled && !GameManager.Instance.Dialogue.DialogueIsPlaying)
                 {
                     SetNewCurrentInteractable(newInteractable);
                 }

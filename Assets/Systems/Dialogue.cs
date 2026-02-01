@@ -150,8 +150,14 @@ public class Dialogue : MonoBehaviour
 
     public void EnterDialogue(TextAsset inkJSON, string node, NPC currentNPC) 
     {
+        if (!GameManager.Instance.Player.MasksOut) 
+        {
+            GameManager.Instance.Player.DisplayMasks();
+        }
+
         _currentNPC = currentNPC;
         _currentStory = new Story(inkJSON.text);
+
         DialogueIsPlaying = true;
         TextUI.gameObject.SetActive(true);
 
@@ -164,6 +170,11 @@ public class Dialogue : MonoBehaviour
 
     public void ExitDialogueMode()
     {
+        if (GameManager.Instance.Player.MasksOut)
+        {
+            GameManager.Instance.Player.HideMasks();
+        }
+
         Debug.Log("Exited dialogue");
         SaveNode();
         SetText("");
