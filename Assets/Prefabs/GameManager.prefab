@@ -215,6 +215,8 @@ MonoBehaviour:
   MicrotextTime: 3
   MicrotextSpeed: 10
   DefaultAudio: {fileID: 8300000, guid: f262a640289b9434d9fb35b825af99e3, type: 3}
+  AnimaticBackground: {fileID: 0}
+  AnimaticImage: {fileID: 0}
 --- !u!82 &6166345765762176219
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1232,8 +1234,8 @@ Camera:
   m_GameObject: {fileID: 3402271749945107314}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.064376414, g: 0.09070382, b: 0.13207549, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

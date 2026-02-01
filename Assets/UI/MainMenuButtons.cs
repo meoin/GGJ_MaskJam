@@ -13,7 +13,7 @@ public class MainMenuButtons : MonoBehaviour
     {
         //Not sure if its just a scene switch so thats what I'll do for now
         Debug.Log("StartGame");
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("OfficeGame");
 
     }
     public void QuitGame()
