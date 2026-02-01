@@ -60,9 +60,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R)) DisplayMasks();
-        if (Input.GetKeyDown(KeyCode.G)) HideMasks();
-
         if (_animateMasks)
         {
             _transitionTimer += Time.deltaTime;
