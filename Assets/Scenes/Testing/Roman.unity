@@ -221,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 314812873}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.44, y: 1.8869543, z: 6.85}
+  m_LocalPosition: {x: 4.44, y: 1.707, z: 6.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -275,138 +275,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4401587558811871055, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4620882100151417701, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4621849063760115819, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5059048488139524601, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -150.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174711569104568162, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5909597152300071065, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.78525186
-      objectReference: {fileID: 0}
-    - target: {fileID: 5909597152300071065, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.78525186
-      objectReference: {fileID: 0}
-    - target: {fileID: 5909597152300071065, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.78525186
-      objectReference: {fileID: 0}
-    - target: {fileID: 5909597152300071065, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -526.771
-      objectReference: {fileID: 0}
-    - target: {fileID: 5909597152300071065, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -293.383
-      objectReference: {fileID: 0}
-    - target: {fileID: 5909597152300071065, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 26.604
-      objectReference: {fileID: 0}
     - target: {fileID: 6264580286996191197, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
       propertyPath: m_Name
       value: FlappyCupMinigame
       objectReference: {fileID: 0}
-    - target: {fileID: 6264580286996191197, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9068419870579790610, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9068419870579790610, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      propertyPath: m_TagString
-      value: Interactable
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 6898898368642021078, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-    - {fileID: 4620882100151417701, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6264580286996191197, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1466789349}
-    - targetCorrespondingSourceObject: {fileID: 9068419870579790610, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 792805839}
-    - targetCorrespondingSourceObject: {fileID: 9068419870579790610, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 792805838}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
---- !u!1 &706990633 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5174711569104568162, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-  m_PrefabInstance: {fileID: 652763674}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &792805833 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9068419870579790610, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-  m_PrefabInstance: {fileID: 652763674}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &792805838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792805833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
---- !u!114 &792805839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792805833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fefc4516444405448b7453a8251fe8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  message: Play FlappyCup
-  onInteraction:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 792805839}
-        m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
-        m_MethodName: PlayMinigame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1102090097
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +469,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7735754130785048706, guid: e635ee9ae8cf1f244961b00be8f4ac60, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -718,25 +599,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &1466789347 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6264580286996191197, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-  m_PrefabInstance: {fileID: 652763674}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1466789349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466789347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 807e199009b1d8b4faedb7ef5a1f06e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hud: {fileID: 706990633}
-  minigame: {fileID: 1748151952}
 --- !u!1 &1632637043
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,11 +678,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1748151952 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4621849063760115819, guid: a0427ff3621ce024f9128c7c5a81e9ee, type: 3}
-  m_PrefabInstance: {fileID: 652763674}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1104713228610933012
 PrefabInstance:
   m_ObjectHideFlags: 0

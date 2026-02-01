@@ -11,12 +11,14 @@ public class CupScript : MonoBehaviour
     [SerializeField] GameObject defeatPanel;
     [SerializeField] TextMeshProUGUI defeatText;
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] AudioSource jump;
     public static int score;
 
     private Vector3 startPos;
     private SpriteRenderer playerSpriteRenderer;
     private Sprite playerSprite;
     private Quaternion startRotation;
+
 
     private void Awake()
     {
@@ -59,6 +61,7 @@ public class CupScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 1f)
         {
             rb.linearVelocity = Vector3.up * 5f;
+            jump.Play();
         }
 
         scoreText.text = "Score: " + score.ToString();

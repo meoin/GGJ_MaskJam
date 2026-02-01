@@ -77,6 +77,7 @@ public class FPS_Controller : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
