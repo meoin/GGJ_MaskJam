@@ -8,6 +8,7 @@ TagManager:
   - Collidable
   - Pipe
   - ScoringPipe
+  - Boarder
   layers:
   - Default
   - TransparentFX

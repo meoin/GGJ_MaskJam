@@ -62,11 +62,16 @@ public class CupScript : MonoBehaviour
         }
 
         scoreText.text = "Score: " + score.ToString();
+
+        if (PlayScript.instance.isDefeat && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Exit();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Pipe"))
+        if (collision.gameObject.CompareTag("Pipe") || collision.gameObject.CompareTag("Boarder"))
         {
             Debug.Log("Triggered Death");
 
@@ -77,8 +82,8 @@ public class CupScript : MonoBehaviour
 
             scoreText.gameObject.SetActive(false);
             defeatText.text = "You lose! Score: " + score.ToString();
-            Cursor.visible = true;
             defeatPanel.gameObject.SetActive(true);
+            PlayScript.instance.isDefeat = true;
             Time.timeScale = 0f;
         }
     }
@@ -86,7 +91,6 @@ public class CupScript : MonoBehaviour
     public void Exit()
     {
         Debug.Log("Exited");
-        Cursor.visible = false;
         defeatPanel.SetActive(false);
         PlayScript.instance.CloseGame();
         Time.timeScale = 1f;
@@ -103,7 +107,7 @@ public class CupScript : MonoBehaviour
         if (player != null)
         {
             player.SetActive(true);
-            player.transform.localPosition = startPos;
+            player.transform.localPosition = new Vector3(startPos.x, -294f, startPos.z);
             player.transform.localRotation = startRotation;
         }
 
@@ -131,8 +135,5 @@ public class CupScript : MonoBehaviour
             startText.text = "Press SPACE to start...";
             startText.gameObject.SetActive(true);
         }
-
-        Cursor.visible = false;
-        Time.timeScale = 0f;
     }
 }

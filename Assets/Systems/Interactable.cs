@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,8 +8,16 @@ public class Interactable : MonoBehaviour
     Outline outline;
     public string message;
 
-
     public UnityEvent onInteraction;
+
+    Vector3 playPos = new Vector3(2.38301849f, -0.421000242f, 6.5732131f);
+
+    IEnumerator MoveInPause()
+    {
+        yield return new WaitForSeconds(1.5f);
+        PlayScript.instance.ActivateGame();
+        Debug.Log("2 seconds passed");
+    }
 
     void Start()
     {
@@ -37,6 +47,14 @@ public class Interactable : MonoBehaviour
 
     public void PlayMinigame()
     {
+        Time.timeScale = 1f;
+
+        FPS_Controller.instance.player.DOLocalMove(playPos, 1.5f);
+
+        PlayScript.instance.isPlaying = true;
+
+        StartCoroutine(MoveInPause());
+
         if (PlayScript.instance == null)
         {
             PlayScript found = FindFirstObjectByType<PlayScript>();
@@ -52,6 +70,8 @@ public class Interactable : MonoBehaviour
             return;
         }
 
-        PlayScript.instance.ActivateGame();
+
+        if (FPS_Controller.instance == null) Debug.Log("instance null");
+        if (FPS_Controller.instance.player == null) Debug.Log("player null");
     }
 }

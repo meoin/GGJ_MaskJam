@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class PlayScript : MonoBehaviour
@@ -5,8 +7,13 @@ public class PlayScript : MonoBehaviour
     public static PlayScript instance;
     [SerializeField] GameObject hud;
     [SerializeField] GameObject minigame;
+    [SerializeField] GameObject screen;
 
-    public bool isPlaying { get; private set; }
+    public bool isDefeat = false;
+
+    Vector3 playerInitialPos;
+
+    public bool isPlaying { get; set; }
 
     private void Awake()
     {
@@ -28,6 +35,8 @@ public class PlayScript : MonoBehaviour
 
     public void ActivateGame()
     {
+        playerInitialPos = FPS_Controller.instance.player.position;
+
         if (hud == null || minigame == null)
         {
             Debug.LogError("PlayScript: 'hud' or 'minigame' are not assigned.");
@@ -46,11 +55,15 @@ public class PlayScript : MonoBehaviour
 
         Time.timeScale = 0f;
 
-        isPlaying = true;
+        isDefeat = false;
     }
 
     public void CloseGame()
     {
+        Time.timeScale = 1f;
+
+        FPS_Controller.instance.player.DOMove(playerInitialPos, 1.5f);
+
         if (hud == null || minigame == null)
         {
             Debug.LogError("PlayScript: 'hud' or 'minigame' are not assigned.");
@@ -62,8 +75,7 @@ public class PlayScript : MonoBehaviour
         hud.SetActive(false);
         minigame.SetActive(false);
 
-        Time.timeScale = 1f;
-
+        isDefeat = false;
         isPlaying = false;
     }
 
