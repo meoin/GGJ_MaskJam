@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CupScript : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class CupScript : MonoBehaviour
     void Start()
     {
         player.transform.position = startPos;
-
+        score = 0;
         defeatPanel.gameObject.SetActive(false);
         startText.text = "Press SPACE to start...";
         Time.timeScale = 0f;
@@ -43,9 +44,16 @@ public class CupScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Pipe"))
         {
             Debug.Log("Triggered Death");
-            Destroy(player);
+            Destroy(player.GetComponent<SpriteRenderer>());
+            scoreText.gameObject.SetActive(false);
             defeatText.text = "You lose! Score: " + score.ToString();
             defeatPanel.gameObject.SetActive(true);
+
         }
+    }
+
+    public void Exit()
+    {
+        Debug.Log("Exited");
     }
 }
