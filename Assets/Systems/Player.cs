@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public MaskState CurrentMask = MaskState.Unmasked;
 
     public GameObject Masks;
+    public GameObject AnucMask;
     public bool MasksOut = false;
     private bool _swappingMasks;
     private bool _animateMasks;
@@ -42,7 +43,11 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (AnucManager.Instance.AnucMode) 
+        {
+            AnucMask.SetActive(true);
+        }
+        else AnucMask.SetActive(false);
     }
 
     // Update is called once per frame

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
@@ -43,6 +44,7 @@ public class Dialogue : MonoBehaviour
     private GetAnimaticImage _animatics;
     public Image AnimaticBackground;
     public Image AnimaticImage;
+    private bool _endingAnimaticPlaying;
 
     void Awake()
     {
@@ -199,7 +201,9 @@ public class Dialogue : MonoBehaviour
             GameManager.Instance.Player.DisplayMasks();
         }
 
+        _endingAnimaticPlaying = false;
         _currentNPC = currentNPC;
+        if (AnucManager.Instance.AnucMode) inkJSON = AnucManager.Instance.AnucStory;
         _currentStory = new Story(inkJSON.text);
 
         DialogueIsPlaying = true;
@@ -234,6 +238,11 @@ public class Dialogue : MonoBehaviour
         ResponseTimerBar.SetActive(false);
         _currentNPC = null;
         _npcAudio = null;
+
+        if (_endingAnimaticPlaying) 
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     private void ContinueStory() 
@@ -255,6 +264,7 @@ public class Dialogue : MonoBehaviour
             }
             else if (_currentStory.currentTags.Contains("animatic")) 
             {
+                
                 Sprite sprite = _animatics.GetImage(text);
                 AnimaticBackground.gameObject.SetActive(true);
                 AnimaticImage.sprite = sprite;
