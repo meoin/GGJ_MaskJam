@@ -10,7 +10,7 @@ public class Interactable : MonoBehaviour
 
     public UnityEvent onInteraction;
 
-    Vector3 playPos = new Vector3(2.38301849f, -0.421000242f, 6.5732131f);
+    Vector3 playPos = new Vector3(-15.083992f, -0.643648458f, -10.37659645f);
 
     IEnumerator MoveInPause()
     {
