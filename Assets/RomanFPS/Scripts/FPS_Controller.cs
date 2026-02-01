@@ -28,6 +28,7 @@ public class FPS_Controller : MonoBehaviour
     [SerializeField] private float sensitivity;
     private float mouseY;
     private float mouseX;
+    public bool Paused;
 
     [Header("Crouching")]
     [SerializeField] private float crouchingTime;
@@ -143,15 +144,19 @@ public class FPS_Controller : MonoBehaviour
         // smoothly change speed towards target
         SmoothSpeed();
 
-        if (PlayScript.instance == null || !PlayScript.instance.isPlaying)
-        {
-            ApplyGravity();
-            ApplyMovement();
-            
-        }
+        
 
+        if (!Paused) 
+        {
+            if (PlayScript.instance == null || !PlayScript.instance.isPlaying)
+            {
+                ApplyGravity();
+                ApplyMovement();
+
+            }
 
             CameraMovement();
+        }
 
         // --- calculating velocity using position change for debug (m/s) ---
         if (Time.deltaTime > 0f)

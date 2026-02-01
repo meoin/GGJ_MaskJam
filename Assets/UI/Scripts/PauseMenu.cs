@@ -30,8 +30,11 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
+        FPS_Controller.instance.Paused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         pausemenuUI.SetActive(true);
-        Time.timeScale = 0f; //FreezeMode
+        //Time.timeScale = 0f; //FreezeMode
         AudioListener.pause = true;
         isPaused = true;
 
@@ -39,6 +42,9 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        FPS_Controller.instance.Paused = false;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         pausemenuUI.SetActive(false);
         Time.timeScale = 1f; //Unfreeze Dawg
         AudioListener.pause = false;
@@ -47,8 +53,10 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturntoMenu()
     {
-       // Time.timeScale = 1f;
-        SceneManager.LoadScene(1);
+        FPS_Controller.instance.Paused = false;
+        Debug.Log("Returning to menu");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
