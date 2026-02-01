@@ -1,6 +1,3 @@
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class FPS_Controller : MonoBehaviour
