@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6972972689773477234}
   - component: {fileID: 7279084933690228830}
-  - component: {fileID: 1571548428067533854}
   - component: {fileID: 5405737407748010822}
   m_Layer: 0
   m_Name: MaskCamera
@@ -85,14 +84,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &1571548428067533854
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845696680107788271}
-  m_Enabled: 1
 --- !u!114 &5405737407748010822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,6 +1174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentMask: 0
   Masks: {fileID: 4603535269712827355}
+  MasksOut: 0
   MaskSpawn: {fileID: 6408004798042980465}
   MaskRise: {fileID: 4497176185319925789}
   MaskPlace: {fileID: 5674558165731297939}
@@ -1190,7 +1182,8 @@ MonoBehaviour:
   MaskRiseTime: 0.8
   MaskPlaceTime: 1.2
   MaskRotateTime: 0.5
-  MaskRemoveTime: 0
+  MaskRemoveTime: 1
+  MaskSwapTime: 0.4
 --- !u!1 &3402271749945107314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,7 +1504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8495372729584890006
 Transform:
   m_ObjectHideFlags: 0
