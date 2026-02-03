@@ -16,7 +16,7 @@ public class KonamiCode : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        textField.gameObject.SetActive(false);
+        //textField.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -59,7 +59,8 @@ public class KonamiCode : MonoBehaviour
             if (text.ToLower() == cheatCode.ToLower())
             {
                 Debug.Log("ENTERED ANUC MODE");
-                AnucManager.Instance.AnucMode = true;
+                AnucManager.Instance.AnucMode = !AnucManager.Instance.AnucMode;
+                textField.gameObject.SetActive(false);
             }
 
             textField.text = "";

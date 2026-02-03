@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class Dialogue : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class Dialogue : MonoBehaviour
     private GetAnimaticImage _animatics;
     public Image AnimaticBackground;
     public Image AnimaticImage;
+    public GameObject VideoPlayer;
     private bool _endingAnimaticPlaying;
 
     void Awake()
@@ -241,6 +243,8 @@ public class Dialogue : MonoBehaviour
 
         if (_endingAnimaticPlaying) 
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene("MainMenu");
         }
     }
@@ -264,10 +268,23 @@ public class Dialogue : MonoBehaviour
             }
             else if (_currentStory.currentTags.Contains("animatic")) 
             {
-                
+                FPS_Controller.instance.Paused = true;
+
+                _endingAnimaticPlaying = true;
                 Sprite sprite = _animatics.GetImage(text);
                 AnimaticBackground.gameObject.SetActive(true);
+                
                 AnimaticImage.sprite = sprite;
+                Debug.Log(text);
+                if (text.Contains("anuc"))
+                {
+                    Debug.Log("Anuc ending playing");
+                    WaitTimeAfterDialogue = 1.35f;
+                    CharactersPerSecond = 40;
+                    TextUI.rectTransform.anchoredPosition = new Vector2(0, 10);
+                    VideoPlayer.SetActive(true);
+                }
+
                 ContinueStory();
             }
             else
@@ -298,7 +315,7 @@ public class Dialogue : MonoBehaviour
         string node = GetCurrentNode();
         if (node != null)
         {
-            Debug.Log(node);
+            //Debug.Log(node);
             _currentNPC.Node = node;
         }
     }
