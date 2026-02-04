@@ -52,23 +52,35 @@ public class CupScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 0f)
+        if (!PlayScript.instance.isDefeat)
         {
-            Time.timeScale = 1f;
-            startText.gameObject.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 0f)
+            {
+                Time.timeScale = 1f;
+                startText.gameObject.SetActive(false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 1f)
+            {
+                rb.linearVelocity = Vector3.up * 5f;
+                jump.Play();
+            }
+
+            scoreText.text = "Score: " + score.ToString();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 1f)
+        else
         {
-            rb.linearVelocity = Vector3.up * 5f;
-            jump.Play();
-        }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Exit();
+            }
 
-        scoreText.text = "Score: " + score.ToString();
-
-        if (PlayScript.instance.isDefeat && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Exit();
+            else if (Input.GetKeyDown(KeyCode.E)) 
+            {
+                ResetGameState();
+                PlayScript.instance.isDefeat = false;
+                PlayScript.instance.DestroyAllPipes();
+            }
         }
     }
 

@@ -271,7 +271,7 @@ public class Dialogue : MonoBehaviour
                 FPS_Controller.instance.Paused = true;
 
                 _endingAnimaticPlaying = true;
-                Sprite sprite = _animatics.GetImage(text);
+                Sprite sprite = _animatics.GetImage(text.Trim());
                 AnimaticBackground.gameObject.SetActive(true);
                 
                 AnimaticImage.sprite = sprite;

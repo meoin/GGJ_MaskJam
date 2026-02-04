@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using static Unity.VisualScripting.Member;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -7,8 +9,13 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
     public AudioSource AudioManager;
     public AudioSource PauseAudio;
+    public AudioMixer AudioMixer;
 
-   
+    private void Start()
+    {
+        PauseAudio.outputAudioMixerGroup = null;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -16,13 +23,16 @@ public class PauseMenu : MonoBehaviour
         {
             if (isPaused)
             {
+                
                 ResumeGame();
 
             }
             else
             {
-                PauseGame();
-
+                if (!GameManager.Instance.Dialogue.DialogueIsPlaying)
+                {
+                    PauseGame();
+                }
             }
         }
 
@@ -32,6 +42,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         AudioManager.Pause();
+        AudioMixer.SetFloat("AmbienceVolume", -99f);
         PauseAudio.Play();
 
         FPS_Controller.instance.Paused = true;
@@ -46,6 +57,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        AudioMixer.SetFloat("AmbienceVolume", 0);
         AudioManager.UnPause();
         FPS_Controller.instance.Paused = false;
         Cursor.visible = false;
@@ -58,6 +70,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturntoMenu()
     {
+        AudioMixer.SetFloat("Ambience", 1);
         FPS_Controller.instance.Paused = false;
         Debug.Log("Returning to menu");
         Time.timeScale = 1f;

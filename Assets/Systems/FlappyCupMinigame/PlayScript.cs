@@ -62,7 +62,7 @@ public class PlayScript : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        FPS_Controller.instance.player.DOMove(playerInitialPos, 1.5f);
+        FPS_Controller.instance.player.transform.position = playerInitialPos;
 
         if (hud == null || minigame == null)
         {
@@ -79,7 +79,7 @@ public class PlayScript : MonoBehaviour
         isPlaying = false;
     }
 
-    private void DestroyAllPipes()
+    public void DestroyAllPipes()
     {
         GameObject[] allPipes = GameObject.FindGameObjectsWithTag("Pipe");
         GameObject[] allScoringPipes = GameObject.FindGameObjectsWithTag("ScoringPipe");

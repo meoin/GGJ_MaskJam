@@ -9,7 +9,8 @@ public class GetAnimaticImage : MonoBehaviour
 
     public Sprite GetImage(string animatic) 
     {
-        int index = AnimaticNames.FindIndex(x => x.StartsWith(animatic));
+        Debug.Log($"Finding image for: '{animatic}'");
+        int index = AnimaticNames.FindIndex(x => x.Contains(animatic));
 
         if (index < 0) index = 0;
 
