@@ -5,7 +5,8 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pausemenuUI;
     public static bool isPaused = false;
-  
+    public AudioSource AudioManager;
+    public AudioSource PauseAudio;
 
    
     // Update is called once per frame
@@ -30,24 +31,28 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
+        AudioManager.Pause();
+        PauseAudio.Play();
+
         FPS_Controller.instance.Paused = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         pausemenuUI.SetActive(true);
         //Time.timeScale = 0f; //FreezeMode
-        AudioListener.pause = true;
+        //AudioListener.pause = true;
         isPaused = true;
 
     }
 
     public void ResumeGame()
     {
+        AudioManager.UnPause();
         FPS_Controller.instance.Paused = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         pausemenuUI.SetActive(false);
         Time.timeScale = 1f; //Unfreeze Dawg
-        AudioListener.pause = false;
+        //AudioListener.pause = false;
         isPaused = false;
     }
 
